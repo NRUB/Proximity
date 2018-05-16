@@ -2,3 +2,10 @@
 *.mca
 *.cache
 *.vspx
+*.suo
+*.sdf
+*.aps
+/Release
+/Debug
+/Proximity/Debug
+/Proximity/Release

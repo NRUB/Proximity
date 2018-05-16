@@ -1,0 +1,40 @@
+HKCR
+{
+    NoRemove CLSID
+    {
+        ForceRemove '{C5DA65D7-3BB2-439B-9F74-C4439D2527E5}' = s 'Proximity Visualization Class'
+        {
+            InprocServer32 = s '%MODULE%'
+            {
+                val ThreadingModel = s 'Apartment'
+            }
+        }
+    }
+}
+HKLM
+{
+    NoRemove SOFTWARE
+    {
+        NoRemove Microsoft
+        {
+            NoRemove MediaPlayer
+            {
+                NoRemove Objects
+                {
+                    NoRemove Effects
+                    {
+                        ForceRemove Proximity
+                        {
+                            Properties
+                            {
+                                val classid = s '{C5DA65D7-3BB2-439B-9F74-C4439D2527E5}'
+                                val name = s 'Proximity'
+                                val description = s 'Proximity Visualization'
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

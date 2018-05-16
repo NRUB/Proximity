@@ -1,0 +1,30 @@
+import "oaidl.idl";
+import "ocidl.idl";
+[
+	object,
+	uuid(7B7EDED2-4FC4-4FB6-AE87-FD630008CD58),
+	dual,
+	helpstring("IProximity Interface"),
+	pointer_default(unique)
+]
+interface IProximity : IDispatch 
+{
+};
+
+[
+	uuid(C975BEB2-B54F-4067-99B4-AC70A0A815F5),
+	version(1.1),
+	helpstring("Proximity 1.1 Type Library")
+]
+library Proximity
+{
+	[
+		uuid(C5DA65D7-3BB2-439B-9F74-C4439D2527E5),
+		version(1.1),
+		helpstring("Proximity")
+	]
+	coclass Proximity
+	{
+		[default] interface IProximity;
+	};
+}

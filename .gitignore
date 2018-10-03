@@ -5,7 +5,8 @@
 *.suo
 *.sdf
 *.aps
-/Release
-/Debug
 /Proximity/Debug
+/Proximity/Proximity/Debug
 /Proximity/Release
+/Proximity/Proximity/Release
+/Proximity/.vs

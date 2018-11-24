@@ -1,12 +1,3 @@
-*.opensdf
-*.mca
-*.cache
-*.vspx
-*.suo
-*.sdf
-*.aps
-/Proximity/Debug
-/Proximity/Proximity/Debug
-/Proximity/Release
-/Proximity/Proximity/Release
-/Proximity/.vs
+/VS/.vs
+/VS/Output
+/VS/Intermediate

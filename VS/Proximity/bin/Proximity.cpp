@@ -69,7 +69,7 @@ HRESULT STDMETHODCALLTYPE CProximity::GetPresetTitle(LONG nPreset, BSTR* bstrPre
 
 HRESULT STDMETHODCALLTYPE CProximity::GetPresetCount(LONG* pnPresetCount) {
 	if (pnPresetCount != nullptr) {
-		*pnPresetCount = visuals.size();
+		*pnPresetCount = (long)visuals.size();
 		return S_OK;
 	}
 	return E_POINTER;

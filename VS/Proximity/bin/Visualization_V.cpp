@@ -76,7 +76,7 @@ void Visualization_V::update(TimedLevel* pLevel) {
 				buffer /= 2; //channels
 				buffer /= step; //sample size
 				buffer /= 2; //scale
-				points[iter] = ((int)(std::pow(buffer, 2) / std::pow(128, 2) * 64)) * 2;
+				points[iter] = ((int)(pow(buffer, 2) / pow(128, 2) * 64)) * 2;
 				++iter;
 				buffer = 0;
 			}
@@ -152,7 +152,7 @@ void Visualization_V::drawMedia() {
 		//Draw author outline
 		SelectObject(hdc, fontAuthor);
 		SIZE size;
-		GetTextExtentPoint32(hdc, author.c_str(), author.size(), &size);
+		GetTextExtentPoint32(hdc, author.c_str(), (int)author.size(), &size);
 		int w = ((size.cx > 0) ? (size.cx + 28) : 0);
 		graphics.FillRectangle(mainLineBrush, Gdiplus::Rect((int)left, (int)bottom + 60, w, (int)40));
 		graphics.FillRectangle(clearBrush, Gdiplus::Rect((int)left + 2, (int)bottom + 60, w - 4, (int)38));

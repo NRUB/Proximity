@@ -1,4 +1,5 @@
 #include "Visualization_V.h"
+#include <iostream>
 
 Visualization_V::Visualization_V() {
 	clearColor = new Gdiplus::Color(10, 10, 10);
@@ -45,7 +46,7 @@ void Visualization_V::update(TimedLevel* pLevel) {
 		Gdiplus::Graphics graphics(&bitmap);
 		graphics.SetSmoothingMode(Gdiplus::SmoothingMode::SmoothingModeNone);
 
-		int width = 408; //24*(16+1)
+		int width = 416; //32 * (notes + 1);
 		int left = 30;
 		int bottom = (rc.bottom - rc.top) - 170;
 
@@ -62,35 +63,32 @@ void Visualization_V::update(TimedLevel* pLevel) {
 		graphics.DrawEllipse(baseLinePen, Gdiplus::Rect(progress - 5, bottom - 5, 10, 10));
 
 		//Calculate spectrogram
-		int samples = 16;
-		int step = 4;
-		unsigned char* points = new unsigned char[samples + 2];
+		std::vector<unsigned char> points;
+		points.resize(notes + 2);
 		points[0] = 0;
-		points[samples + 1] = 0;
-		int buffer = 0;
-		int iter = 1;
-		for (int n = 64; n < 128; ++n) {
-			buffer += pLevel->frequency[0][n];
-			buffer += pLevel->frequency[1][n];
-			if (n % step == (step - 1)) {
-				buffer /= 2; //channels
-				buffer /= step; //sample size
-				buffer /= 2; //scale
-				points[iter] = ((int)(pow(buffer, 2) / pow(128, 2) * 64)) * 2;
-				++iter;
-				buffer = 0;
+		points[notes + 1] = 0;
+		for (int note = 0; note < notes; ++note) {
+			double buffer = 0;
+			for (int octave = 0; octave < 8; ++octave)
+			{
+				double index = ((frequencies[note][octave] - 20) / 22030) * 1024;
+				double fraction = index - ((int)index);
+				unsigned char Lf = (pLevel->frequency[0][(int)index] + pLevel->frequency[1][(int)index]) / 2;
+				unsigned char Rf = (pLevel->frequency[0][(int)index + 1] + pLevel->frequency[1][(int)index + 1]) / 2;
+				double interpolated = ((Lf - Rf) * fraction) + Rf;
+				buffer += interpolated * multipliers[octave];
 			}
+			buffer /= 4;
+			points[note + 1] = ((int)(pow(buffer, 2) / pow(128, 2) * 64));
 		}
 
 		//Draw main line
-		Gdiplus::Point* draw = new Gdiplus::Point[samples + 2];
-		for (int i = 0; i < samples + 2; ++i) {
-			draw[i].X = left + i * 24;
+		std::unique_ptr<Gdiplus::Point[]> draw = std::make_unique<Gdiplus::Point[]>(notes + 2);
+		for (int i = 0; i < notes + 2; ++i) {
+			draw[i].X = left + i * 32;
 			draw[i].Y = bottom - points[i];
 		}
-		delete points;
-		graphics.DrawLines(mainLinePen, draw, samples + 2);
-		delete draw;
+		graphics.DrawLines(mainLinePen, draw.get(), notes + 2);
 
 		//Flush
 		gdc.DrawImage(&bitmap, 0, 0);
@@ -139,7 +137,7 @@ void Visualization_V::drawMedia() {
 		Gdiplus::Graphics graphics(&bitmap);
 		graphics.SetSmoothingMode(Gdiplus::SmoothingMode::SmoothingModeNone);
 
-		int width = 408; //24*(16+1)
+		int width = 416;
 		int left = 30;
 		int bottom = (rc.bottom - rc.top) - 170;
 

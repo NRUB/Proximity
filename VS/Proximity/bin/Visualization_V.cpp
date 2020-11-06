@@ -42,25 +42,24 @@ void Visualization_V::update(TimedLevel* pLevel) {
 		HDC hdc = GetDC(hwnd);
 		Gdiplus::Graphics gdc(hdc);
 
-		Gdiplus::Bitmap bitmap(rc.right - rc.left, rc.bottom - rc.top);
+		int width = 428; //32 * (notes + 1) + 12;
+		int height = 135;
+
+		Gdiplus::Bitmap bitmap(width, height);
 		Gdiplus::Graphics graphics(&bitmap);
 		graphics.SetSmoothingMode(Gdiplus::SmoothingMode::SmoothingModeNone);
 
-		int width = 416; //32 * (notes + 1);
-		int left = 30;
-		int bottom = (rc.bottom - rc.top) - 170;
-
 		//Clear
-		graphics.FillRectangle(clearBrush, Gdiplus::Rect(left - 5, bottom - 128, width + 12, 135));
+		graphics.Clear(*clearColor);
 
 		//Draw base line
-		graphics.DrawLine(baseLinePen, Gdiplus::Point(left, bottom), Gdiplus::Point(left + width, bottom));
+		graphics.DrawLine(baseLinePen, Gdiplus::Point(6, height - 7), Gdiplus::Point(width - 7, height - 7));
 
 		//Draw timestamp
 		long long time = pLevel->timeStamp / 10000;
-		int progress = (int)(width * time / duration) + left;
+		int progress = (int)((width - 12) * time / duration) + 6;
 		graphics.SetSmoothingMode(Gdiplus::SmoothingMode::SmoothingModeAntiAlias);
-		graphics.DrawEllipse(baseLinePen, Gdiplus::Rect(progress - 5, bottom - 5, 10, 10));
+		graphics.DrawEllipse(baseLinePen, Gdiplus::Rect(progress - 5, height - 12, 10, 10));
 
 		//Calculate spectrogram
 		std::vector<unsigned char> points;
@@ -85,8 +84,8 @@ void Visualization_V::update(TimedLevel* pLevel) {
 		//Draw main line
 		std::unique_ptr<Gdiplus::Point[]> draw = std::make_unique<Gdiplus::Point[]>(notes + 2);
 		for (int i = 0; i < notes + 2; ++i) {
-			draw[i].X = left + i * 32;
-			draw[i].Y = bottom - points[i];
+			draw[i].X = 6 + i * 32;
+			draw[i].Y = height - 7 - points[i];
 		}
 		graphics.DrawLines(mainLinePen, draw.get(), notes + 2);
 
@@ -95,7 +94,7 @@ void Visualization_V::update(TimedLevel* pLevel) {
 		bitmap.GetHBITMAP(*clearColor, &handle);
 		HDC memDC = CreateCompatibleDC(hdc);
 		SelectObject(memDC, handle);
-		BitBlt(hdc, left - 5, bottom - 128, width + 12, 135, memDC, left - 5, bottom - 128, SRCCOPY);
+		BitBlt(hdc, 24, rc.bottom - 298, width, height, memDC, 0, 0, SRCCOPY);
 
 		freeHGDI(memDC);
 		freeHGDI(handle);

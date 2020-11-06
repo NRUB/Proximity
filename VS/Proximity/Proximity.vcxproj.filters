@@ -18,52 +18,52 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Midl Include="bin\Proximity.idl">
+    <Midl Include="src\Proximity.idl">
       <Filter>Resource Files</Filter>
     </Midl>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="bin\Main.cpp">
+    <ClCompile Include="src\Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="midl\Proximity_i.c">
       <Filter>Resource Files</Filter>
     </ClCompile>
-    <ClCompile Include="bin\Proximity.cpp">
+    <ClCompile Include="src\Proximity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="bin\Visualization.cpp">
+    <ClCompile Include="src\Visualization.cpp">
       <Filter>Visualizations</Filter>
     </ClCompile>
-    <ClCompile Include="bin\Visualization_V.cpp">
+    <ClCompile Include="src\Visualization_V.cpp">
       <Filter>Visualizations</Filter>
     </ClCompile>
-    <ClCompile Include="bin\Visualization_N.cpp">
+    <ClCompile Include="src\Visualization_N.cpp">
       <Filter>Visualizations</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="bin\Proximity.def">
+    <None Include="src\Proximity.def">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="bin\Proximity.rgs">
+    <None Include="src\Proximity.rgs">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="bin\Proximity.h">
+    <ClInclude Include="src\Proximity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="bin\Visualization.h">
+    <ClInclude Include="src\Visualization.h">
       <Filter>Visualizations</Filter>
     </ClInclude>
-    <ClInclude Include="bin\Visualization_N.h">
+    <ClInclude Include="src\Visualization_N.h">
       <Filter>Visualizations</Filter>
     </ClInclude>
-    <ClInclude Include="bin\Visualization_V.h">
+    <ClInclude Include="src\Visualization_V.h">
       <Filter>Visualizations</Filter>
     </ClInclude>
   </ItemGroup>

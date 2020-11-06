@@ -91,8 +91,14 @@ void Visualization_V::update(TimedLevel* pLevel) {
 		graphics.DrawLines(mainLinePen, draw.get(), notes + 2);
 
 		//Flush
-		gdc.DrawImage(&bitmap, 0, 0);
+		HBITMAP handle;
+		bitmap.GetHBITMAP(*clearColor, &handle);
+		HDC memDC = CreateCompatibleDC(hdc);
+		SelectObject(memDC, handle);
+		BitBlt(hdc, left - 5, bottom - 128, width + 12, 135, memDC, left - 5, bottom - 128, SRCCOPY);
 
+		freeHGDI(memDC);
+		freeHGDI(handle);
 		freeHGDI(&bitmap);
 		freeHGDI(&graphics);
 		freeHGDI(&gdc);

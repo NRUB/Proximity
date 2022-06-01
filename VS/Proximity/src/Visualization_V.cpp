@@ -119,9 +119,9 @@ void Visualization_V::updateAll(TimedLevel* pLevel) {
 
 void Visualization_V::newMedia(IWMPMedia* pMedia) {
 	BSTR buffer;
-	pMedia->getItemInfo(L"Author", &buffer);
+	pMedia->getItemInfo((BSTR)L"Author", &buffer);
 	author = buffer;
-	pMedia->getItemInfo(L"Title", &buffer);
+	pMedia->getItemInfo((BSTR)L"Title", &buffer);
 	title = buffer;
 	pMedia->get_duration(&duration);
 	duration *= 1000;
